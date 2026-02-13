@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Ohoud Portfolio🔥</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Cairo',sans-serif;
+}
+
+body{
+  color:white;
+  background:#121526; /* أخف شويه للعين */
+  overflow-x:hidden;
+  cursor:none;
+  position:relative;
+}
+
+/* Three.js canvas */
+#three-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-3;
+  opacity:0.35; /* خفيفه شوي */
+}
+
+/* Matrix overlay */
+canvas#matrix{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  opacity:0.25; /* تخفيف لونها */
+}
+
+/* Cursor كهربائي */
+#cursor{
+  position:fixed;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  pointer-events:none;
+  mix-blend-mode: difference;
+  box-shadow: 0 0 10px #0ff,0 0 20px #0ff,0 0 30px #0ff;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+}
+
+/* Header animation */
+body.loaded header{
+  animation:fadeInHeader 2s ease forwards;
+}
+@keyframes fadeInHeader{
+  from{opacity:0; transform:translateY(-50px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+header{
+  text-align:center;
+  padding:80px 20px;
+  opacity:0;
+}
+
+header h1{
+  font-family:'Orbitron';
+  font-size:55px;
+  letter-spacing:3px;
+  color:#0ff;
+}
+
+header p{
+  margin-top:10px;
+  color:#0ffaa0;
+  font-weight:500;
+}
+
+/* Sections */
+section{
+  width:85%;
+  margin:auto;
+  margin-bottom:40px;
+  opacity:0;
+  transform:translateY(50px);
+  transition:1s;
+}
+
+section.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.card{
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
+  border-radius:20px;
+  padding:30px;
+  margin-top:20px;
+  transition:0.4s;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 0 30px #00e1ff33;
+}
+
+h2{
+  margin-bottom:15px;
+  font-family:'Orbitron';
+  color:#00e1ff;
+}
+
+/* Skills Cards */
+.skills-container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+}
+
+.skill-card{
+  flex:1 1 120px;
+  min-width:120px;
+  max-width:150px;
+  background:rgba(0,255,255,0.1);
+  text-align:center;
+  padding:15px;
+  border-radius:15px;
+  font-weight:600;
+  color:#0ff;
+  transition:0.3s;
+  cursor:default;
+}
+
+.skill-card:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 20px #0ff5;
+}
+
+/* Projects */
+.projects{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.project{
+  padding:25px;
+  border-radius:15px;
+  background:#0a0f1c;
+  cursor:pointer;
+  transition:0.3s;
+  text-align:center;
+}
+
+.project:hover{
+  transform:scale(1.05);
+  background:#0f172a;
+  box-shadow:0 0 20px #00e1ff55;
+}
+
+.projectPage{
+  display:none;
+  text-align:center;
+}
+
+.projectPage img{
+  width:100%;
+  max-width:400px; /* تقريبا مقاس آيفون */
+  height:auto;
+  object-fit:cover;
+  border-radius:15px;
+  margin:10px auto;
+  display:block;
+  transition: transform 0.5s;
+}
+
+.projectPage img:hover{
+  transform: rotateY(10deg) scale(1.05);
+}
+
+.certificates-list{
+  list-style:none;
+  padding-left:0;
+}
+
+.certificates-list li{
+  margin-bottom:10px;
+  background:rgba(0,255,255,0.1);
+  padding:10px 15px;
+  border-radius:12px;
+  display:inline-block;
+  color:#0ff;
+  font-weight:500;
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="matrix"></canvas>
+<div id="three-bg"></div>
+
+<header>
+<h1>👩‍💻 Ohoud Nasser </h1>
+<p>Computer Information Systems Graduate | Mobile Developer | Data Analyst</p>
+</header>
+
+<section class="card">
+<h2>🧠 About Me | نبذة</h2>
+<p>
+Computer Information Systems graduate with strong skills in Microsoft Excel, data organization, and administrative support. Completed cooperative training at SAUDIA Airlines, gaining hands-on experience in operations coordination, reporting, and workflow support. Certified in customer service and data analysis with a passion for organization, communication, and delivering efficient solutions. Fast learner, detail oriented, and motivated to grow professionally in administrative, customer service, and operational roles.
+<br><br>
+خريجة نظم المعلومات الحاسوبية، متخصصة في تنظيم البيانات ودعم العمليات الإدارية، وحاصلة على تدريب عملي في الخطوط السعودية واكتسبت خبرة في تنسيق العمليات، التقارير، ودعم سير العمل. شغوفة بالخدمة المتميزة وتحليل البيانات وتسليم حلول فعالة وسريعة.
+</p>
+</section>
+
+<section class="card">
+<h2>⚡ Skills | المهارات</h2>
+<div class="skills-container">
+  <div class="skill-card">Flutter</div>
+  <div class="skill-card">Dart</div>
+  <div class="skill-card">Firebase</div>
+  <div class="skill-card">UI/UX</div>
+  <div class="skill-card">Power BI</div>
+  <div class="skill-card">Excel</div>
+  <div class="skill-card">Figma</div>
+  <div class="skill-card">AI Basics</div>
+</div>
+</section>
+
+<section class="card">
+<h2>🎓 Certificates | الشهادات</h2>
+<ul class="certificates-list">
+<li>IBM Artificial Intelligence Analyst</li>
+<li>IBTA Customer Service Professional</li>
+<li>Flutter Mobile Development – GDSC</li>
+<li>Cybersecurity Fundamentals – Taibah University</li>
+<li>Power BI & Excel Dashboards – Taibah University</li>
+</ul>
+</section>
+
+<section class="card">
+<h2>🚀 Projects | المشاريع</h2>
+<div class="projects">
+<div class="project" onclick="openProject('unibite')">🔥 UNIBITE</div>
+<div class="project" onclick="openProject('saudia')">✈️ Saudi Airlines Project</div>
+<div class="project" onclick="openProject('ward')">🌸 Flower Project</div>
+</div>
+</section>
+
+<section id="unibite" class="projectPage">
+<h2>UNIBITE</h2>
+<img src="images/unibite1.jpg">
+<img src="images/unibite2.jpg">
+<img src="images/unibite3.jpg">
+<img src="images/unibite4.jpg">
+</section>
+
+<section id="saudia" class="projectPage">
+<h2>Saudi Airlines</h2>
+<img src="images/saudia1.jpeg">
+</section>
+
+<section id="ward" class="projectPage">
+<h2>Flower System</h2>
+<img src="images/f.png">
+<img src="images/f2.png">
+<img src="images/f3.png">
+</section>
+
+<script>
+// === Three.js background ===
+const threeContainer = document.getElementById('three-bg');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+threeContainer.appendChild(renderer.domElement);
+
+const geometry = new THREE.IcosahedronGeometry(0.8,1); // اصغر شويه
+const material = new THREE.MeshStandardMaterial({color:0x00ffff, wireframe:true});
+const particles = [];
+
+for(let i=0;i<120;i++){
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(
+    (Math.random()-0.5)*25,
+    (Math.random()-0.5)*25,
+    (Math.random()-0.5)*25
+  );
+  scene.add(mesh);
+  particles.push(mesh);
+}
+
+const light = new THREE.PointLight(0x00ffff,1,100);
+light.position.set(10,10,10);
+scene.add(light);
+
+camera.position.z = 20;
+
+function animateThree(){
+  requestAnimationFrame(animateThree);
+  particles.forEach(p=>{
+    p.rotation.x += 0.002;
+    p.rotation.y += 0.002;
+  });
+  renderer.render(scene,camera);
+}
+animateThree();
+
+// === Matrix Overlay ===
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const fontSize = 16;
+const columns = Math.floor(canvas.width / fontSize);
+const drops = Array(columns).fill(1);
+function drawMatrix(){
+  ctx.fillStyle = "rgba(18,21,38,0.03)"; // أفتح شويه
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "#0f0";
+  ctx.font = fontSize + "px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text = letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    drops[i]++;
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+  }
+}
+setInterval(drawMatrix,35);
+
+// === Custom Cursor ===
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove",(e)=>{
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
+
+// === Projects toggle ===
+function openProject(id){
+  document.querySelectorAll(".projectPage").forEach(p=>p.style.display="none");
+  document.getElementById(id).style.display="block";
+  window.scrollTo({top:document.getElementById(id).offsetTop,behavior:"smooth"});
+}
+
+// === Scroll Reveal ===
+const sections = document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+  sections.forEach(sec=>{
+    const top = sec.getBoundingClientRect().top;
+    if(top<window.innerHeight-100){
+      sec.classList.add("visible");
+    }
+  });
+});
+
+// === Page Load Animation ===
+window.addEventListener("load",()=>{
+  document.body.classList.add("loaded");
+});
+</script>
+
+</body>
+</html>
